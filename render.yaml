@@ -2,8 +2,10 @@ services:
   - type: web
     name: finance-ai-backend
     env: python
-    buildCommand: "pip install --no-cache-dir -r requirements.txt"
-    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    # Run install from the backend folder because requirements.txt lives in /backend
+    buildCommand: "cd backend && pip install --no-cache-dir -r requirements.txt"
+    # Ensure the service runs from the backend package directory
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     autoDeploy: true
     healthCheckPath: /health
     envVars:
@@ -29,10 +31,12 @@ services:
     ipAllowList: [] # Only accessible by other services in same project
     databaseName: finance_db
 
-  - type: web
+  - type: static
     name: finance-ai-frontend
     env: static
+    # Build from the frontend folder
     buildCommand: "npm install && npm run build"
+    # Vite outputs to frontend/dist — make sure Render publishes the correct path
     staticPublishPath: dist
     autoDeploy: true
     envVars:
@@ -40,4 +44,5 @@ services:
         fromService:
           type: web
           name: finance-ai-backend
-          property: host
+          # Use the backend service URL so the frontend can reach the API
+          property: https://finance-ai-3gb0.onrender.com
