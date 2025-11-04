@@ -31,9 +31,8 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 space-y-4">
-        <div className="spinner"></div>
-        <p className="text-gray-600 font-medium">Loading your dashboard...</p>
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
       </div>
     )
   }
@@ -49,39 +48,36 @@ export default function Dashboard() {
   const getStatusColor = (status) => {
     switch (status) {
       case 'success':
-        return 'badge-success'
+        return 'bg-green-100 text-green-800'
       case 'failed':
-        return 'badge-danger'
+        return 'bg-red-100 text-red-800'
       case 'pending':
-        return 'badge-warning'
+        return 'bg-yellow-100 text-yellow-800'
       default:
-        return 'badge bg-gray-100 text-gray-800'
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
   return (
-    <div className="space-y-8 animate-slide-up">
-      <div className="relative">
-        <h1 className="text-4xl font-bold gradient-text">Dashboard</h1>
-        <p className="text-gray-600 mt-2 text-lg">Overview of your child's financial information</p>
-        <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary-200/30 rounded-full blur-2xl"></div>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-600 mt-2">Overview of your child's financial information</p>
       </div>
 
       {/* Student Info */}
       {feeBreakdown && (
-        <div className="card-gradient animate-scale-in">
-          <div className="flex items-center space-x-6">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-white/50 rounded-2xl blur-lg group-hover:blur-xl transition-all"></div>
-              <div className="relative w-20 h-20 bg-white/30 backdrop-blur-sm rounded-2xl flex items-center justify-center border-2 border-white/40">
-                <span className="text-3xl font-bold text-white drop-shadow-lg">
-                  {feeBreakdown.name.charAt(0)}
-                </span>
-              </div>
+        <div className="card">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Student Information</h2>
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
+              <span className="text-2xl font-bold text-primary-600">
+                {feeBreakdown.name.charAt(0)}
+              </span>
             </div>
-            <div className="flex-1">
-              <h3 className="text-2xl font-bold text-white drop-shadow-md">{feeBreakdown.name}</h3>
-              <p className="text-white/90 text-lg mt-1">Class: <span className="font-semibold">{feeBreakdown.class_id}</span></p>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">{feeBreakdown.name}</h3>
+              <p className="text-gray-600">Class: {feeBreakdown.class_id}</p>
             </div>
           </div>
         </div>
@@ -90,11 +86,9 @@ export default function Dashboard() {
       {/* Fee Breakdown */}
       {feeBreakdown && (
         <div className="card">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <span className="gradient-text">Fee Breakdown</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {Object.entries(feeBreakdown.fee_breakdown).map(([category, amount], index) => {
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Fee Breakdown</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Object.entries(feeBreakdown.fee_breakdown).map(([category, amount]) => {
               const icons = {
                 tuition: DollarSign,
                 hostel: TrendingUp,
@@ -107,28 +101,19 @@ export default function Dashboard() {
               return (
                 <div
                   key={category}
-                  className={`stat-card group hover:scale-105 transition-all duration-300 ${
+                  className={`p-4 rounded-lg border-2 ${
                     isScholarship
-                      ? 'bg-gradient-to-br from-success-50 to-success-100 border-success-200'
-                      : 'bg-gradient-to-br from-white to-gray-50'
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-gray-50 border-gray-200'
                   }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className={`icon-container w-10 h-10 ${
-                      isScholarship ? 'bg-gradient-success' : 'bg-gradient-accent'
-                    }`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className={`text-xs font-bold uppercase tracking-wider ${
-                      isScholarship ? 'text-success-700' : 'text-gray-600'
-                    }`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <Icon className={`w-5 h-5 ${isScholarship ? 'text-green-600' : 'text-gray-600'}`} />
+                    <span className={`text-xs font-medium uppercase ${isScholarship ? 'text-green-600' : 'text-gray-600'}`}>
                       {category}
                     </span>
                   </div>
-                  <p className={`text-3xl font-bold ${
-                    isScholarship ? 'text-success-700' : 'text-gray-900'
-                  }`}>
+                  <p className={`text-2xl font-bold ${isScholarship ? 'text-green-700' : 'text-gray-900'}`}>
                     {formatCurrency(amount)}
                   </p>
                 </div>
@@ -140,29 +125,26 @@ export default function Dashboard() {
 
       {/* Upcoming Dues */}
       {upcomingDues && (
-        <div className="card relative overflow-hidden bg-gradient-to-br from-warning-50 via-orange-50 to-danger-50 border-warning-200 shadow-lg">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-warning-300/20 rounded-full blur-3xl"></div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 relative z-10">
-            <span className="bg-gradient-to-r from-warning-600 to-danger-600 bg-clip-text text-transparent">Upcoming Dues</span>
-          </h2>
-          <div className="space-y-4 relative z-10">
+        <div className="card bg-gradient-to-br from-orange-50 to-red-50 border-orange-200">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Upcoming Dues</h2>
+          <div className="space-y-3">
             {Object.entries(upcomingDues.dues_by_category).map(([category, amount]) => (
               amount > 0 && (
-                <div key={category} className="flex justify-between items-center p-3 bg-white/60 backdrop-blur-sm rounded-xl hover:bg-white/80 transition-all">
-                  <span className="text-gray-700 capitalize font-semibold">{category}</span>
-                  <span className="font-bold text-gray-900 text-lg">{formatCurrency(amount)}</span>
+                <div key={category} className="flex justify-between items-center">
+                  <span className="text-gray-700 capitalize">{category}</span>
+                  <span className="font-semibold text-gray-900">{formatCurrency(amount)}</span>
                 </div>
               )
             ))}
             {upcomingDues.scholarships > 0 && (
-              <div className="flex justify-between items-center p-3 bg-success-100/60 backdrop-blur-sm rounded-xl border border-success-200">
-                <span className="text-success-700 font-semibold">Scholarship Applied</span>
-                <span className="font-bold text-success-700 text-lg">-{formatCurrency(upcomingDues.scholarships)}</span>
+              <div className="flex justify-between items-center text-green-700">
+                <span>Scholarship Applied</span>
+                <span className="font-semibold">-{formatCurrency(upcomingDues.scholarships)}</span>
               </div>
             )}
-            <div className="pt-4 border-t-2 border-warning-300 flex justify-between items-center p-4 bg-white/80 backdrop-blur-sm rounded-xl">
-              <span className="text-xl font-bold text-gray-900">Total Due</span>
-              <span className="text-3xl font-bold bg-gradient-to-r from-warning-600 to-danger-600 bg-clip-text text-transparent">
+            <div className="pt-3 border-t-2 border-orange-200 flex justify-between items-center">
+              <span className="text-lg font-semibold text-gray-900">Total Due</span>
+              <span className="text-2xl font-bold text-orange-600">
                 {formatCurrency(upcomingDues.total_due)}
               </span>
             </div>
@@ -172,41 +154,34 @@ export default function Dashboard() {
 
       {/* Payment History */}
       <div className="card">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          <span className="gradient-text">Recent Payment History</span>
-        </h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">Recent Payment History</h2>
         {paymentHistory.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Receipt className="w-8 h-8 text-gray-400" />
-            </div>
-            <p className="text-gray-500 font-medium">No payment history available</p>
-          </div>
+          <p className="text-gray-500 text-center py-8">No payment history available</p>
         ) : (
-          <div className="overflow-x-auto rounded-xl">
-            <table className="table-modern">
+          <div className="overflow-x-auto">
+            <table className="w-full">
               <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Category</th>
-                  <th>Amount</th>
-                  <th>Status</th>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Date</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Category</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Amount</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Status</th>
                 </tr>
               </thead>
               <tbody>
-                {paymentHistory.slice(0, 5).map((payment, index) => (
-                  <tr key={payment._id} style={{ animationDelay: `${index * 50}ms` }} className="animate-fade-in">
-                    <td className="font-medium">
+                {paymentHistory.slice(0, 5).map((payment) => (
+                  <tr key={payment._id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm text-gray-900">
                       {new Date(payment.created_at).toLocaleDateString('en-IN')}
                     </td>
-                    <td className="capitalize font-medium">
+                    <td className="py-3 px-4 text-sm text-gray-900 capitalize">
                       {payment.category}
                     </td>
-                    <td className="font-bold text-gray-900">
+                    <td className="py-3 px-4 text-sm font-semibold text-gray-900">
                       {formatCurrency(payment.amount)}
                     </td>
-                    <td>
-                      <span className={`badge ${getStatusColor(payment.status)}`}>
+                    <td className="py-3 px-4">
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(payment.status)}`}>
                         {payment.status}
                       </span>
                     </td>

@@ -3,215 +3,29 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    @apply transition-colors duration-200;
-  }
-  
   body {
-    @apply bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50 text-gray-900;
-    background-attachment: fixed;
-  }
-  
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    @apply bg-gray-100;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gradient-primary rounded-full;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary-600;
+    @apply bg-gray-50 text-gray-900;
   }
 }
 
 @layer components {
-  /* Modern Button Styles */
   .btn {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 
-           focus:outline-none focus:ring-4 focus:ring-offset-2
-           transform hover:scale-105 active:scale-95
-           shadow-lg hover:shadow-xl;
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
   
   .btn-primary {
-    @apply bg-gradient-primary text-white 
-           hover:shadow-primary focus:ring-primary-300
-           relative overflow-hidden;
-  }
-  
-  .btn-primary::before {
-    content: '';
-    @apply absolute inset-0 bg-white opacity-0 hover:opacity-20 transition-opacity duration-300;
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
   }
   
   .btn-secondary {
-    @apply bg-white text-gray-800 border-2 border-gray-200
-           hover:border-primary-300 hover:bg-primary-50 
-           focus:ring-primary-200;
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500;
   }
   
-  .btn-success {
-    @apply bg-gradient-success text-white 
-           hover:shadow-lg focus:ring-success-300;
-  }
-  
-  .btn-danger {
-    @apply bg-gradient-to-r from-danger-500 to-danger-600 text-white 
-           hover:shadow-lg focus:ring-danger-300;
-  }
-  
-  /* Glass Card Styles */
   .card {
-    @apply bg-white/80 backdrop-blur-xl rounded-2xl shadow-glass 
-           border border-white/20 p-6
-           hover:shadow-glass-lg hover:border-primary-200/30
-           transition-all duration-300 animate-fade-in;
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
   }
   
-  .card-glass {
-    @apply bg-white/60 backdrop-blur-2xl rounded-2xl shadow-glass-lg 
-           border border-white/30 p-6
-           hover:bg-white/70 transition-all duration-300;
-  }
-  
-  .card-gradient {
-    @apply bg-gradient-primary text-white rounded-2xl shadow-primary 
-           p-6 hover:shadow-glass-lg transition-all duration-300
-           relative overflow-hidden;
-  }
-  
-  .card-gradient::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-br from-white/20 to-transparent 
-           opacity-0 hover:opacity-100 transition-opacity duration-300;
-  }
-  
-  /* Modern Input Styles */
   .input {
-    @apply w-full px-5 py-3 border-2 border-gray-200 rounded-xl
-           bg-white/80 backdrop-blur-sm
-           focus:outline-none focus:ring-4 focus:ring-primary-200 
-           focus:border-primary-400 focus:bg-white
-           transition-all duration-300
-           placeholder:text-gray-400;
-  }
-  
-  .input:hover {
-    @apply border-primary-300 bg-white;
-  }
-  
-  /* Badge Styles */
-  .badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
-  }
-  
-  .badge-success {
-    @apply bg-success-100 text-success-700;
-    border: 1px solid #bbf7d0;
-  }
-  
-  .badge-warning {
-    @apply bg-warning-100 text-warning-700;
-    border: 1px solid #fde68a;
-  }
-  
-  .badge-danger {
-    @apply bg-danger-100 text-danger-700;
-    border: 1px solid #fecaca;
-  }
-  
-  .badge-primary {
-    @apply bg-primary-100 text-primary-700;
-    border: 1px solid #e9d5ff;
-  }
-  
-  /* Stat Card */
-  .stat-card {
-    @apply card relative overflow-hidden;
-  }
-  
-  .stat-card::after {
-    content: '';
-    @apply absolute top-0 right-0 w-32 h-32 bg-gradient-primary 
-           opacity-5 rounded-full blur-3xl
-           group-hover:opacity-10 transition-opacity duration-500;
-  }
-  
-  /* Gradient Text */
-  .gradient-text {
-    @apply bg-gradient-primary bg-clip-text text-transparent font-bold;
-  }
-  
-  /* Shimmer Effect */
-  .shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.8) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-  
-  /* Floating Animation */
-  .float {
-    @apply animate-float;
-  }
-  
-  /* Glow Effect */
-  .glow {
-    @apply animate-glow;
-  }
-  
-  /* Modern Table */
-  .table-modern {
-    @apply w-full border-separate border-spacing-0;
-  }
-  
-  .table-modern thead tr {
-    @apply bg-gradient-to-r from-primary-50 to-accent-50;
-  }
-  
-  .table-modern thead th {
-    @apply text-left py-4 px-6 text-sm font-bold text-gray-700 
-           first:rounded-tl-xl last:rounded-tr-xl;
-  }
-  
-  .table-modern tbody tr {
-    @apply bg-white/60 backdrop-blur-sm hover:bg-white/90 
-           transition-all duration-200;
-  }
-  
-  .table-modern tbody td {
-    @apply py-4 px-6 text-sm text-gray-900 border-t border-gray-100;
-  }
-  
-  /* Loading Spinner */
-  .spinner {
-    @apply animate-spin rounded-full border-4 border-gray-200 
-           border-t-primary-600 w-12 h-12;
-  }
-  
-  /* Tooltip */
-  .tooltip {
-    @apply absolute z-50 px-3 py-2 text-xs font-medium text-white 
-           bg-gray-900 rounded-lg shadow-lg opacity-0 
-           transition-opacity duration-300 pointer-events-none;
-  }
-  
-  /* Icon Container */
-  .icon-container {
-    @apply w-12 h-12 rounded-xl bg-gradient-primary 
-           flex items-center justify-center text-white
-           shadow-primary hover:shadow-glass-lg
-           transition-all duration-300 hover:scale-110;
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
   }
 }
